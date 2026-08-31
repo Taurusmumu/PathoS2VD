@@ -1,0 +1,23 @@
+model:
+  pretrained_model: stabilityai/stable-video-diffusion-img2vid-xt
+  unet_checkpoint: ${PATHOS2VD_STAGE2_CHECKPOINT}
+  vae_checkpoint: ${PATHOS2VD_TARGET_VAE_CHECKPOINT}
+inference:
+  input: ${PATHOS2VD_INPUT}
+  output_dir: ${PATHOS2VD_GENERATION_OUTPUT}
+  image_size: 256
+  num_frames: 11
+  final_frames: 33
+  num_inference_steps: 20
+  solver_order: 2
+  min_guidance_scale: 2.0
+  max_guidance_scale: 3.0
+  motion_bucket_id: 1.7
+  fps: 7
+  noise_aug_strength: 0.02
+  sigma_max: 165.0
+  seed: 8
+  dtype: float32
+profiling:
+  warmup_images: 1
+  measured_images: 10

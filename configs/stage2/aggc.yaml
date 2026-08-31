@@ -1,0 +1,73 @@
+target_name: aggc2022
+model:
+  pretrained_model: stabilityai/stable-video-diffusion-img2vid-xt
+dataset:
+  source_data_root: ${PATHOS2VD_SOURCE_ROOT}
+  source_annotation: ${PATHOS2VD_SOURCE_ANNOTATION}
+  split_file: ${PATHOS2VD_SOURCE_SPLIT}
+  target_data_root: ${PATHOS2VD_AGGC_ROOT}
+  target_manifest:
+    path: ${PATHOS2VD_AGGC_SPLIT}
+    path_column: Name
+    filter_column: TASK
+    filter_value: Train
+    default_prefix: Subset1_Train_image
+    directory_patterns:
+      - "*.jpg"
+    path_rules:
+      - {contains: Subset2, prefix: Subset2_Train_image}
+  num_frames: 11
+  image_size: 256
+  source_crop_size: 253
+  target_crop_size: 256
+  target_motion: 1.7
+  reverse_source_probability: 0.5
+training:
+  max_train_steps: 250000
+  train_batch_size: 1
+  gradient_accumulation_steps: 1
+  learning_rate: 5.0e-5
+  lr_scheduler: constant_with_warmup
+  warmup_steps: 1500
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  weight_decay: 0.01
+  adam_epsilon: 1.0e-8
+  conditioning_dropout_probability: 0.1
+  gradient_checkpointing: false
+  mixed_precision: "no"
+  use_ema: false
+  seed: 42
+  num_workers: 16
+  profile_compute_cost: false
+  profile_warmup_steps: 10
+  profile_log_interval: 100
+edm: {sigma_loc: 0.7, sigma_scale: 1.6, condition_sigma_loc: -3.0, condition_sigma_scale: 0.5, fps: 7}
+target_vae_training:
+  max_train_steps: 10000
+  train_batch_size: 1
+  gradient_accumulation_steps: 1
+  learning_rate: 4.5e-6
+  lr_scheduler: constant_with_warmup
+  warmup_steps: 1500
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  weight_decay: 0.005
+  max_grad_norm: 1.0
+  mixed_precision: "no"
+  seed: 42
+  num_workers: 0
+  profile_compute_cost: false
+  profile_warmup_steps: 10
+  profile_log_interval: 100
+  save_every: 1000
+loss: {reconstruction: l1, lpips_weight: 1.0, kl_weight: 1.0e-6}
+checkpoint:
+  source_vae_checkpoint: /ssd2/AMC_zstack_2_patches/vae_1017/VAETrainer/checkpoint_100000/pytorch_model.bin
+  target_vae_output_dir: ${PATHOS2VD_OUTPUT_ROOT}/target_vae/aggc2022
+  stage1_checkpoint: ${PATHOS2VD_CHECKPOINT_ROOT}/unet_full_v3/checkpoint-500000
+  target_vae_checkpoint: ${PATHOS2VD_CHECKPOINT_ROOT}/vae_prostate_aggc_1212/VAETrainer/checkpoint_10000/pytorch_model.bin
+  output_dir: ${PATHOS2VD_OUTPUT_ROOT}/stage2/aggc2022
+  save_every: 5000
+  expected_final: checkpoint-250000
+logging: {report_to: null}

@@ -1,0 +1,14 @@
+torch>=2.1
+diffusers>=0.29,<0.31
+transformers>=4.40,<4.46
+accelerate>=0.28,<1.0
+huggingface-hub>=0.23
+safetensors>=0.4
+PyYAML>=6.0
+Pillow>=9.1
+numpy>=1.24
+pandas>=2.0
+openpyxl>=3.1
+lpips>=0.1.4
+tqdm>=4.66
+pytest>=7.4

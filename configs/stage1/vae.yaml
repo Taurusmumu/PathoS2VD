@@ -1,0 +1,37 @@
+model:
+  pretrained_model: stabilityai/stable-video-diffusion-img2vid-xt
+  subfolder: vae
+dataset:
+  source_data_root: ${PATHOS2VD_SOURCE_ROOT}
+  source_annotation: ${PATHOS2VD_SOURCE_ANNOTATION}
+  split_file: ${PATHOS2VD_SOURCE_SPLIT}
+  split: val
+  image_size: 256
+  crop_size: 253
+training:
+  max_train_steps: 1000
+  train_batch_size: 1
+  gradient_accumulation_steps: 1
+  learning_rate: 5.0e-5
+  lr_scheduler: constant_with_warmup
+  warmup_steps: 1500
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  weight_decay: 0.005
+  max_grad_norm: 1.0
+  mixed_precision: "no"
+  seed: 42
+  num_workers: 0
+  profile_compute_cost: true
+  profile_warmup_steps: 10
+  profile_log_interval: 100
+loss:
+  reconstruction: l1
+  lpips_weight: 1.0
+  kl_weight: 1.0e-6
+checkpoint:
+  output_dir: ${PATHOS2VD_OUTPUT_ROOT}/stage1_vae
+  save_every: 500
+logging:
+  report_to: null
+  logging_dir: ${PATHOS2VD_OUTPUT_ROOT}/logs/stage1_vae

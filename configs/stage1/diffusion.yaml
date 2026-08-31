@@ -1,0 +1,46 @@
+model:
+  pretrained_model: stabilityai/stable-video-diffusion-img2vid-xt
+  revision: null
+  source_vae_checkpoint: /ssd2/AMC_zstack_2_patches/vae_1017/VAETrainer/checkpoint_100000/pytorch_model.bin
+dataset:
+  source_data_root: ${PATHOS2VD_SOURCE_ROOT}
+  source_annotation: ${PATHOS2VD_SOURCE_ANNOTATION}
+  split_file: ${PATHOS2VD_SOURCE_SPLIT}
+  split: train
+  num_frames: 11
+  image_size: 256
+  crop_size: 253
+  blur_threshold: 0.2
+training:
+  max_train_steps: 500000
+  train_batch_size: 1
+  gradient_accumulation_steps: 1
+  learning_rate: 5.0e-5
+  lr_scheduler: constant_with_warmup
+  warmup_steps: 1500
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  weight_decay: 0.01
+  adam_epsilon: 1.0e-8
+  conditioning_dropout_probability: 0.1
+  gradient_checkpointing: false
+  use_ema: false
+  mixed_precision: "no"
+  seed: 42
+  num_workers: 8
+  profile_compute_cost: false
+  profile_warmup_steps: 10
+  profile_log_interval: 100
+edm:
+  sigma_loc: 0.7
+  sigma_scale: 1.6
+  condition_sigma_loc: -3.0
+  condition_sigma_scale: 0.5
+  fps: 7
+checkpoint:
+  output_dir: ${PATHOS2VD_OUTPUT_ROOT}/stage1_diffusion
+  save_every: 2500
+  expected_final: checkpoint-500000
+logging:
+  report_to: null
+  logging_dir: ${PATHOS2VD_OUTPUT_ROOT}/logs/stage1_diffusion
