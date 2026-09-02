@@ -1,0 +1,19 @@
+# Generated 33-plane outputs are evaluated only through z11--z21.
+gt_csv: ${PATHOS2VD_GT_VIDEO_SAMPLED}
+gt_root: ${PATHOS2VD_GT_ROOT}
+generated_root: ${PATHOS2VD_STAGE1_GENERATED_ROOT}
+generated_frame_layout: central_33  # Set legacy_11 only for an explicitly legacy 11-frame directory.
+output_dir: ${PATHOS2VD_EVALUATION_OUTPUT}/stage1_source
+device: cuda
+use_lpips: true
+structure_tensor:
+  sigma: 1.0
+  rho: 2.0
+  spacing: [0.3, 0.5, 0.5]
+  anis_thresh: 0.3
+# Exact legacy FID/FVD is opt-in because it uses SVD_Xtend's preserved I3D/Inception assets.
+legacy_distribution_metrics:
+  fid: false
+  fvd: false
+  svd_xtend_root: /home/quiil/PycharmProjects/SVD_Xtend
+  fid_num_samples: 10000

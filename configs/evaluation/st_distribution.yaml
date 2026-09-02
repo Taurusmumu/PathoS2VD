@@ -1,0 +1,30 @@
+# Method-agnostic, unpaired real-GT versus generated-stack ST distribution.
+# Run this once with MFDA's generated_root and once with conventional FT's root.
+gt_csv: ${PATHOS2VD_GT_VIDEO_SAMPLED}
+gt_root: ${PATHOS2VD_GT_ROOT}
+generated_root: ${PATHOS2VD_CONVENTIONAL_FT_GENERATED_ROOT}
+output_dir: ${PATHOS2VD_EVALUATION_OUTPUT}/st_distribution_conv
+#generated_root: ${PATHOS2VD_STAGE2_GENERATED_ROOT}
+#output_dir: ${PATHOS2VD_EVALUATION_OUTPUT}/st_distribution
+num_stacks: 1000
+random_seed: 42
+mode: local  # Set local to use independently sampled local 3D crops.
+# Final 33-plane PathoS2VD outputs: exactly z11--z21.  Use legacy_11 only for
+# a directory that explicitly contains a legacy z00--z10 output.
+generated_frame_layout: legacy_11
+structure_tensor:
+  sigma: 1.0
+  rho: 2.0
+  spacing: [0.3, 0.5, 0.5]
+  anis_thresh: 0.3
+local_crop:
+  enabled: true
+  crop_size: 50
+  crops_per_stack: 1
+  seed: 42
+  sampling: random
+  # Disabled by default. If set, tissue fraction is the proportion of pixels
+  # below tissue_intensity_threshold across the complete [11, crop, crop] crop.
+  min_tissue_fraction: null
+  tissue_intensity_threshold: 0.9
+  max_attempts_per_crop: 100

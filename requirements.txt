@@ -12,3 +12,6 @@ openpyxl>=3.1
 lpips>=0.1.4
 tqdm>=4.66
 pytest>=7.4
+scipy>=1.10
+scikit-image>=0.21
+pytorch-fid>=0.3

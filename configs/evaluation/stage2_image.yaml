@@ -1,0 +1,14 @@
+# AGGC manifest columns: file_path, class.  input_root is removed from each
+# input path before locating the corresponding generated stack.
+target_manifest:
+  path: ${PATHOS2VD_TARGET_EVAL_MANIFEST}
+  input_path_column: file_path
+  input_root: ${PATHOS2VD_TARGET_IMAGE_ROOT}
+generated_root: ${PATHOS2VD_STAGE2_GENERATED_ROOT}
+generated_frame_layout: central_33
+output_dir: ${PATHOS2VD_EVALUATION_OUTPUT}/stage2_image
+device: cuda
+use_lpips: true
+# AGGC Table-2 preprocessing in SVD_Xtend: center crop 256, RGB.
+preprocessing:
+  center_crop: 256
