@@ -1,7 +1,7 @@
 model:
   pretrained_model: stabilityai/stable-video-diffusion-img2vid-xt
   revision: null
-  source_vae_checkpoint: /ssd2/AMC_zstack_2_patches/vae_1017/VAETrainer/checkpoint_100000/pytorch_model.bin
+  source_vae_checkpoint: ${PATHOS2VD_SOURCE_VAE_CHECKPOINT}
 dataset:
   source_data_root: ${PATHOS2VD_SOURCE_ROOT}
   source_annotation: ${PATHOS2VD_SOURCE_ANNOTATION}

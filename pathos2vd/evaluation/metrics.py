@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-"""Paper image/video metrics migrated from SVD_Xtend/evaluation_v2/metrics.py."""
-
 import math
 from typing import Iterable
 
@@ -18,7 +16,6 @@ def _as_float_rgb(stack: np.ndarray) -> np.ndarray:
 
 
 def legacy_ssim(first: np.ndarray, second: np.ndarray) -> float:
-    """Same skimage call used by SVD_Xtend MetricsCalculator."""
     return float(structural_similarity(first, second, multichannel=True, channel_axis=2, data_range=1.0))
 
 
@@ -47,7 +44,6 @@ class LegacyImageMetrics:
             return float("nan")
         first_tensor = torch.from_numpy(first).permute(2, 0, 1).unsqueeze(0).float().to(self.device)
         second_tensor = torch.from_numpy(second).permute(2, 0, 1).unsqueeze(0).float().to(self.device)
-        # SVD_Xtend uses ToTensor then Normalize(mean=.5, std=.5).
         first_tensor = first_tensor * 2.0 - 1.0
         second_tensor = second_tensor * 2.0 - 1.0
         with torch.no_grad():

@@ -12,7 +12,7 @@ from pathos2vd.utils.logging import configure_logging
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Train the PathoS2VD Stage-I z prior")
-    parser.add_argument("--config", default="/home/compu/jiamu/PathoS2VD/configs/stage1/diffusion.yaml")
+    parser.add_argument("--config", default="configs/stage1/diffusion.yaml")
     args = parser.parse_args()
     configure_logging()
     Stage1Trainer(load_config(args.config)).fit()

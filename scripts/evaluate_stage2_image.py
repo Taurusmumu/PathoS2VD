@@ -13,7 +13,7 @@ from pathos2vd.utils import load_config
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate target input fidelity against generated central z16")
-    parser.add_argument("--config", default="/home/compu/jiamu/PathoS2VD/configs/evaluation/stage2_image.yaml")
+    parser.add_argument("--config", default="configs/evaluation/stage2_image.yaml")
     args = parser.parse_args()
     config = load_config(args.config)
     evaluate_target_root(config, config["generated_root"], config["output_dir"])

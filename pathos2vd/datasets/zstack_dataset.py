@@ -68,7 +68,11 @@ def read_annotation(path: str | Path) -> list[ZStackRecord]:
             score_columns = reader.fieldnames[2:-3]
         if len(score_columns) != 19:
             raise ValueError(f"Expected 19 plane score columns, found {len(score_columns)}")
-        start_key, min_key = reader.fieldnames[-3], reader.fieldnames[-1]
+        # Canonical preprocessing metadata may append absolute/relative blur,
+        # masks, motions and tissue fields after the legacy-compatible zXX
+        # ``motion;blur`` columns.
+        start_key = "start" if "start" in reader.fieldnames else "start_indices"
+        min_key = "min_index" if "min_index" in reader.fieldnames else "min_indices"
         for row in reader:
             scores = [_parse_score(row[name]) for name in score_columns]
             records.append(

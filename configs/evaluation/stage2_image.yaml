@@ -9,6 +9,5 @@ generated_frame_layout: central_33
 output_dir: ${PATHOS2VD_EVALUATION_OUTPUT}/stage2_image
 device: cuda
 use_lpips: true
-# AGGC Table-2 preprocessing in SVD_Xtend: center crop 256, RGB.
 preprocessing:
   center_crop: 256

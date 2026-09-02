@@ -7,6 +7,7 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+import torch
 from PIL import Image
 from scipy.stats import wasserstein_distance
 
@@ -64,30 +65,20 @@ def _legacy_distribution_metrics(
     gt_videos: list[np.ndarray],
     generated_videos: list[np.ndarray],
 ) -> dict[str, float]:
-    """Call the original SVD_Xtend FID/FVD code only when explicitly enabled."""
+    """Optional standalone FID/FVD; no legacy checkout is required."""
     options = config.get("legacy_distribution_metrics", {})
     if not options.get("fid", False) and not options.get("fvd", False):
         return {}
-    root = options.get("svd_xtend_root")
-    if root is None:
-        raise ValueError("legacy_distribution_metrics requires svd_xtend_root for exact paper FID/FVD")
-    root_text = str(Path(root))
-    if root_text not in sys.path:
-        sys.path.insert(0, root_text)
+    from .distribution_metrics import fid, fvd
     device = config.get("device", "cuda")
     result: dict[str, float] = {}
     if options.get("fid", False):
-        from common_metrics_on_video_quality.fid_score import FID
-
-        metric = FID(gt_frame_paths, generated_frame_paths, device)
-        result["fid"] = float(metric.compute(num_samples=int(options.get("fid_num_samples", 10000))))
+        limit = int(options.get("fid_num_samples", 10000))
+        result["fid"] = fid(gt_frame_paths[:limit], generated_frame_paths[:limit], device=device)
     if options.get("fvd", False):
-        from common_metrics_on_video_quality.calculate_fvd import calculate_fvd
-
         gt_tensor = torch.from_numpy(np.stack(gt_videos)).permute(0, 1, 4, 2, 3).float() / 255.0
         generated_tensor = torch.from_numpy(np.stack(generated_videos)).permute(0, 1, 4, 2, 3).float() / 255.0
-        fvd = calculate_fvd(gt_tensor, generated_tensor, torch.device(device), method="styleganv", only_final=True)
-        result["fvd"] = float(fvd[0] if isinstance(fvd, (list, tuple)) else fvd)
+        result["fvd"] = fvd(gt_tensor, generated_tensor, device=device, i3d_weights=options.get("i3d_weights"))
     return result
 
 

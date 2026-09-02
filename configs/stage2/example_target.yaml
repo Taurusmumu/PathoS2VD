@@ -53,7 +53,7 @@ target_vae_training:
   save_every: 1000
 loss: {reconstruction: l1, lpips_weight: 1.0, kl_weight: 1.0e-6}
 checkpoint:
-  source_vae_checkpoint: /ssd2/AMC_zstack_2_patches/vae_1017/VAETrainer/checkpoint_100000/pytorch_model.bin
+  source_vae_checkpoint: ${PATHOS2VD_SOURCE_VAE_CHECKPOINT}
   target_vae_output_dir: ${PATHOS2VD_OUTPUT_ROOT}/target_vae/replace_me
   stage1_checkpoint: ${PATHOS2VD_CHECKPOINT_ROOT}/unet_full_v3/checkpoint-500000
   target_vae_checkpoint: ${PATHOS2VD_TARGET_VAE_CHECKPOINT}

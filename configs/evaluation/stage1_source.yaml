@@ -11,9 +11,7 @@ structure_tensor:
   rho: 2.0
   spacing: [0.3, 0.5, 0.5]
   anis_thresh: 0.3
-# Exact legacy FID/FVD is opt-in because it uses SVD_Xtend's preserved I3D/Inception assets.
 legacy_distribution_metrics:
   fid: false
   fvd: false
-  svd_xtend_root: /home/quiil/PycharmProjects/SVD_Xtend
   fid_num_samples: 10000

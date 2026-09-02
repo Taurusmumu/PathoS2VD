@@ -14,7 +14,7 @@ from pathos2vd.utils import load_config
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Compare unpaired GT and generated z-axis ST distributions")
-    parser.add_argument("--config", default="/home/compu/jiamu/PathoS2VD/configs/evaluation/st_distribution.yaml")
+    parser.add_argument("--config", default="configs/evaluation/st_distribution.yaml")
     parser.add_argument("--sampling-manifest", help="Reuse stack IDs and local crop coordinates from a prior local run")
     parser.add_argument("--save-sampling-manifest", help="Also save this run's sampling manifest at this path")
     args = parser.parse_args()

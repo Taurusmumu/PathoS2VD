@@ -146,18 +146,18 @@ def _benchmark_dataset_generation(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate a 33-plane PathoS2VD pseudo z-stack")
-    parser.add_argument("--config", default="/home/compu/jiamu/PathoS2VD/configs/inference/default.yaml")
+    parser.add_argument("--config", default="configs/inference/default.yaml")
     parser.add_argument(
         "--dataset-config",
         help="Optional Stage-II target config; generate one stack for every TargetImageDataset image.",
-        default="/home/compu/jiamu/PathoS2VD/configs/stage2/aggc.yaml"
+        default=None,
     )
     parser.add_argument("--start-index", type=int, default=0, help="First dataset image to generate.")
-    parser.add_argument("--max-images", type=int, default=3, help="Maximum number of dataset images to generate.")
+    parser.add_argument("--max-images", type=int, default=None, help="Maximum number of dataset images to generate.")
     parser.add_argument(
         "--benchmark",
         action="store_true",
-        default=True,
+        default=False,
         help="Benchmark dataset generation without saving outputs.",
     )
     parser.add_argument("--benchmark-warmup", type=int, help="Override profiling.warmup_images.")
