@@ -859,7 +859,6 @@ def generate_33_planes(pipeline: PathoS2VDPipeline, image: PIL.Image.Image, conf
     inference = config["inference"]
     size = int(inference.get("image_size", 256))
     seed = int(inference.get("seed", 8))
-    # VAE posterior sampling does not accept a generator in the migrated API,
     # so seed both the ambient RNG and the explicit latent/noise generator.
     torch.manual_seed(seed)
     if torch.cuda.is_available():

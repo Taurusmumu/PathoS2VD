@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-"""Exact 3D-ST quantities migrated from PathoGenNext/scripts/ST/st_2.py."""
 
 import numpy as np
 from scipy.ndimage import gaussian_filter
